@@ -5,41 +5,29 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="SeleniumApi">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../eclipse/jee-2019-12/eclipse/"/>
+    <property name="ECLIPSE_HOME" value="../../../../eclipse/jee-2019-12/eclipse/"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="13"/>
     <property name="source" value="13"/>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="../../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="../../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
     </path>
     <path id="SeleniumApi.classpath">
         <pathelement location="bin"/>
         <path refid="JUnit 4.libraryclasspath"/>
-        <pathelement location="../../IspwProgetti/risorse/selenium-server-standalone-3.141.59 .jar"/>
-    </path>
-    <path id="run.JUnitCore.classpath">
-        <path refid="SeleniumApi.classpath"/>
-        <path refid="JUnit 4.libraryclasspath"/>
-        <pathelement location="../../IspwProgetti/risorse/selenium-server-standalone-3.141.59 .jar"/>
+        <pathelement location="../../../IspwProgetti/risorse/selenium-server-standalone-3.141.59 .jar"/>
     </path>
     <path id="run.SeleniumApi.classpath">
         <path refid="SeleniumApi.classpath"/>
         <path refid="JUnit 4.libraryclasspath"/>
-        <pathelement location="../../IspwProgetti/risorse/selenium-server-standalone-3.141.59 .jar"/>
-    </path>
-    <path id="run.TestCode.classpath">
-        <path refid="SeleniumApi.classpath"/>
-        <path refid="JUnit 4.libraryclasspath"/>
-        <pathelement location="../../IspwProgetti/risorse/selenium-server-standalone-3.141.59 .jar"/>
+        <pathelement location="../../../IspwProgetti/risorse/selenium-server-standalone-3.141.59 .jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.xtend"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -71,11 +59,6 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="JUnitCore">
-        <java classname="org.junit.runner.JUnitCore" failonerror="true" fork="yes">
-            <classpath refid="run.JUnitCore.classpath"/>
-        </java>
-    </target>
     <target name="SeleniumApi">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -83,15 +66,6 @@
             <test name="test.TestCode" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
             <classpath refid="run.SeleniumApi.classpath"/>
-        </junit>
-    </target>
-    <target name="TestCode">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.TestCode" todir="${junit.output.dir}"/>
-            <jvmarg line="-ea"/>
-            <classpath refid="run.TestCode.classpath"/>
         </junit>
     </target>
     <target name="junitreport">
